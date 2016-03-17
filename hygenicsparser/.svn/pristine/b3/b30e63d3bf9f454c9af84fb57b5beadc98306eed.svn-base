@@ -1,0 +1,87 @@
+package scala.com.hygenics.scala
+
+import com.hygenics.parser.getDAOTemplate
+
+import scala.collection.JavaConversions._
+import scala.beans._
+import org.springframework.beans.factory.annotation.Autowired
+
+import akka.actor.Actor
+import scala.util.parsing.combinator.RegexParsers
+
+/**
+ * 
+ * This class will insert any class including parser combinators with the appropriate run function
+ * into an Akka program for parsing data from a database. A single or multiple columns
+ * may be specified from which a single or multiple fields may be generated.
+ * 
+ * Expectations
+ * 		-When adding parsers to the Parser trait and this class, ensure that they are appropriately documented
+ * 		-Make any functions (coded or otherwise) easy to access with logical method names 
+ * 		-Provide a proper master-slave mapping with a single Master
+ * 		-Return data as a properly mapped json string from the provided json string
+ *		-Not overload the actor network by spawning too many actors via a controlled depth level variable
+ * 
+ * Intentions
+ * 		-Start looking into re-usable code solutions that can integrate with the Spring program
+ * 		-Make writing initial parsers and even standardization faster with simple XML configs.
+ * 
+ * NOTE: Parser combinators are meant to parser grammars (e.g. a string of commands to be placed in a stack via postfix algo). Operatiosn are
+ * thereore limitedd to Regular expressions.
+ */
+class RunParsers{
+  
+  @Autowired
+  var template:getDAOTemplate = _
+  
+  @BeanProperty
+  var actorDepth:Integer = 1
+  
+  /**
+   * key = ip
+   * value = 'master' or 'slave' only the first read master is used
+   */
+  @BeanProperty
+  var masterSlaveMap:java.util.Map[String,String] = _
+  
+  /**
+   * key = attribute name
+   * value = command to be run as key = command && value = args
+   */
+  @BeanProperty
+  var keyCommandMap:java.util.Map[String,Map[String,Object]] = _
+  
+  def submitToDB()={
+    
+  }//submitToDB
+  
+  
+  
+  /**
+   * The Actor Factory returns actors and is a nice way to 
+   * keep the class clean and provide a space to add functionality.
+   */
+  private object ActorFactory{
+    
+    class GenericActor(ip : String) extends Actor{
+      
+      def receive = {
+        case _ => 
+      }//receive
+      
+    }
+    
+    def getActor(ip : String):GenericActor={
+      null
+    }//getActor
+    
+  }
+  
+  /**
+   * Entry point into the program
+   */
+  def run()={
+    
+  }//run
+  
+}
